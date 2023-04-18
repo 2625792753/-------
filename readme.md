@@ -6,5 +6,5 @@ cd ./build
 cmake ..
 cmake --build .
 cd ./Debug
- .\LexicalAnalyzer.exe ../../test_input.txt
+ .\LexicalAnalyzer.exe ../../test_input.txt ../../
 ```
