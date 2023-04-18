@@ -1,0 +1,9 @@
+void main()
+{
+    int a=3,b=201,res1,2res;
+    res1=b/a;//jlskda dsadas das 
+    /*dsadad*//*bubusdfsdfsfdsdadas//*/
+    2res=b*c;/*dsadkhajsda*/
+    cout<<res1;
+    return 0;
+}

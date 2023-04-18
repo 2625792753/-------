@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.14)
+project(Lexical_Analyzer)
+
+set(CMAKE_CXX_STANDARD 14)
+
+list(
+    APPEND
+    source
+    meta.hpp
+    argparser.hpp
+    lexical_analyzer.hpp
+    main.cpp
+)
+
+add_executable(
+    LexicalAnalyzer
+    ${source}
+)
