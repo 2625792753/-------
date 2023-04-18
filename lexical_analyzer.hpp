@@ -28,11 +28,9 @@ void _pre_process(string output_filename)
     ofstream out(path_dest_folder + output_filename, ios::out);
 
     bool _exegesis = false;
-    while (!in.eof())
+    string tmp;
+    while (in >> tmp)
     {
-        string tmp;
-        in >> tmp;
-
         size_t start = tmp.find("/*");
         size_t end = tmp.find("*/");
         _exegesis = start != string::npos || start != string::npos || _exegesis;
@@ -73,9 +71,8 @@ void _pre_process(string output_filename)
             {
                 tmp.erase(tmp.find("//"));
                 out << tmp;
-                while (!in.eof())
+                while (in >> tmp)
                 {
-                    in >> tmp;
                     if (tmp.find('\n') != string::npos)
                     {
                         in >> tmp;
@@ -110,11 +107,10 @@ void _lexical_analyze(string source_path, string dest_path)
     string expression;
     int index = 0;
 
-    while (!in.eof())
+    unordered_map<string, int> extra;
+    int extra_index = keywords.size() + separaters.size() + 1;
+    while (in >> expression)
     {
-        in >> expression;
-        cout << "Expression: " << expression << endl;
-
         int i = 0;
         while (i < expression.length())
         {
@@ -124,7 +120,6 @@ void _lexical_analyze(string source_path, string dest_path)
             // separater found
             if (s != separaters.end())
             {
-                cout << "Separater: " << c << endl;
                 out << index++ << '\t' << s->second << '\t' << s->first << endl;
                 ++i;
                 continue;
@@ -140,8 +135,6 @@ void _lexical_analyze(string source_path, string dest_path)
             // token analyze
             if (token.length() > 0)
             {
-                cout << "Token: " << token << endl;
-
                 // keyword found
                 auto k = keywords.find(token);
                 if (k != keywords.end())
@@ -158,13 +151,19 @@ void _lexical_analyze(string source_path, string dest_path)
                         if ((startwithdigit && isalpha(token[j])) || (!isalnum(token[j]) && token[j] != '_'))
                         {
                             valid = false;
+                            cout << "ERROR::" << token << endl;
                             break;
                         }
                     }
 
                     if (valid)
                     {
-                        out << index++ << '\t' << 0 << '\t' << token << endl;
+                        if (extra.find(token) == extra.end())
+                        {
+                            extra.emplace(token, extra_index);
+                            ++extra_index;
+                        }
+                        out << index++ << '\t' << extra.find(token)->second << '\t' << token << endl;
                     }
                 }
             }
