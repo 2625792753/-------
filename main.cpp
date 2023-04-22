@@ -16,4 +16,6 @@ int main(int argc, char const *argv[])
     // lexical analyzer
     _pre_process(outfile1);
     _lexical_analyze(path_dest_folder + outfile1, path_dest_folder + outfile2);
+    
+    cout << "Done." << endl;
 }
